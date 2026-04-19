@@ -208,6 +208,7 @@
 <script>
   // Servicios locales (con icon emoji por app)
   const LINKS = [
+    { name:"Raspberry Control", url:"http://192.168.1.78:8080",   group:"Control",   desc:"Control principal de la Raspberry", iconSrc:"./icons/raspberry-control.png" },
   //  { name:"WeTTY",         url:"http://192.168.1.78:3000/wetty", group:"Terminal",  desc:"Terminal web (SSH)",        icon:"🖥️" },
     { name:"Jellyfin",      url:"http://192.168.1.78:8096/",      group:"Media",     desc:"Servidor multimedia",       icon:"🎞️" },
     { name:"qBittorrent",   url:"http://192.168.1.78:9013/",      group:"Descargas", desc:"Gestor de descargas (Web)", icon:"⬇️" },
@@ -276,10 +277,13 @@
       const icon = document.createElement("div");
       icon.className = "icon";
 
-      // 👇 MODIFICACIÓN: si hay item.icon usa emoji; si no, favicon
       const img = document.createElement("img");
       img.alt = "";
-      if (item.icon) {
+      if (item.iconSrc) {
+        img.src = item.iconSrc;
+        icon.appendChild(img);
+        img.onerror = ()=>{ img.style.display="none"; icon.textContent="🔗"; };
+      } else if (item.icon) {
         icon.textContent = item.icon;
       } else {
         img.src = favicon(item.url);
